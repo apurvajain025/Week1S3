@@ -1,83 +1,46 @@
-import java.util.Scanner;
+public class BMICalculator {
 
-public class PalindromeChecker {
+    static String getBmiStatus(double bmi) {
 
-    // 1. Iterative method
-    static boolean isPalindromeIterative(String text) {
-
-        int left = 0;
-        int right = text.length() - 1;
-
-        while (left < right) {
-
-            if (text.charAt(left) != text.charAt(right)) {
-                return false;
-            }
-
-            left++;
-            right--;
-        }
-
-        return true;
+        if (bmi < 18.5)
+            return "Underweight";
+        else if (bmi < 25)
+            return "Normal";
+        else if (bmi < 30)
+            return "Overweight";
+        else
+            return "Obese";
     }
 
-    // 2. Recursive method
-    static boolean isPalindromeRecursive(String text) {
+    static void printWellnessReport(double[] heights, double[] weights) {
 
-        if (text.length() <= 1) {
-            return true;
+        System.out.println("Person\tHeight\tWeight\tBMI\tStatus");
+
+        for (int i = 0; i < heights.length; i++) {
+
+            double bmi = weights[i] / (heights[i] * heights[i]);
+
+            System.out.printf(
+                "%d\t%.2f\t%.2f\t%.2f\t%s%n",
+                i + 1,
+                heights[i],
+                weights[i],
+                bmi,
+                getBmiStatus(bmi)
+            );
         }
-
-        if (text.charAt(0) != text.charAt(text.length() - 1)) {
-            return false;
-        }
-
-        return isPalindromeRecursive(
-            text.substring(1, text.length() - 1)
-        );
-    }
-
-    // 3. Array reversal method
-    static boolean isPalindromeArrayReversal(String text) {
-
-        char[] arr = text.toCharArray();
-
-        int left = 0;
-        int right = arr.length - 1;
-
-        while (left < right) {
-
-            char temp = arr[left];
-            arr[left] = arr[right];
-            arr[right] = temp;
-
-            left++;
-            right--;
-        }
-
-        String reversed = new String(arr);
-
-        return text.equals(reversed);
     }
 
     public static void main(String[] args) {
 
-        Scanner sc = new Scanner(System.in);
+        double[] heights = {
+            1.75, 1.60, 1.70, 1.80, 1.65
+        };
 
-        System.out.print("Enter text: ");
-        String text = sc.nextLine();
+        double[] weights = {
+            70, 90, 80, 65, 75
+        };
 
-        System.out.println();
-
-        System.out.println("Iterative: " +
-            (isPalindromeIterative(text) ? "Palindrome" : "Not Palindrome"));
-
-        System.out.println("Recursive: " +
-            (isPalindromeRecursive(text) ? "Palindrome" : "Not Palindrome"));
-
-        System.out.println("Array Reversal: " +
-            (isPalindromeArrayReversal(text) ? "Palindrome" : "Not Palindrome"));
-
-        sc.close();
+        printWellnessReport(heights, weights);
     }
 }
